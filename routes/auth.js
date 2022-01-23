@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
+const jwt = require("jsonwebtoken");
 
 //登録
 router.post("/register", async (req, res) => {
@@ -39,9 +40,20 @@ router.post("/login", async (req, res) => {
     originalPassword !== req.body.password &&
       res.status(401).json("パスワードが違います");
 
+    //jwt(認証方式の１つ。ログインするときに使う。)
+    //jwt.sign(payload, SECRET_KET, option) //トークン作成
+    const accessToken = jwt.sign(
+      {
+        id: user._id,
+        isAdmin: user.isAdmin,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "2d" }
+    );
+
     const { password, ...others } = user._doc;
 
-    res.status(201).json(others);
+    res.status(201).json({ ...others, accessToken });
   } catch (error) {
     res.status(500).json(error);
   }

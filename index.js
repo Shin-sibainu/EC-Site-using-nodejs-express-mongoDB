@@ -15,7 +15,7 @@ mongoose
   .catch((error) => console.log(error));
 
 //ベースで使うAPIエンドポイント設定
-app.use("/api/user/", userRoute);
+app.use("/api/users/", userRoute);
 
 app.use("/api/auth", authRoute);
 
