@@ -6,6 +6,7 @@ const dotenv = require("dotenv").config();
 
 const userRoute = require("./routes/user");
 const authRoute = require("./routes/auth");
+const productRoute = require("./routes/product");
 
 app.use(express.json());
 
@@ -16,8 +17,8 @@ mongoose
 
 //ベースで使うAPIエンドポイント設定
 app.use("/api/users/", userRoute);
-
 app.use("/api/auth", authRoute);
+app.use("/api/products", productRoute);
 
 app.listen(process.env.PORT || 3000, () =>
   console.log("サーバーが起動しました")
